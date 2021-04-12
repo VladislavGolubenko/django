@@ -97,7 +97,7 @@ class Flights(models.Model):
     # id_flights = models.IntegerField(primary_key=True, verbose_name='ID')
     departure_airport = models.ForeignKey('Airport', on_delete=models.PROTECT, related_name='departure_airport', null=True, verbose_name='Точка вылета')
     arrival_point_airport = models.ForeignKey('Airport', on_delete=models.PROTECT, related_name='arrival_point_airport', null=True, verbose_name='Аэропорт назначения', blank=True)
-    transfer_point = models.ForeignKey('Airport', on_delete=models.PROTECT, related_name='transfer_point', null=True, verbose_name='Аэропорт пересадки')
+    transfer_point = models.ForeignKey('Airport', on_delete=models.PROTECT, related_name='transfer_point', null=True, verbose_name='Аэропорт пересадки', blank=True)
     departure_time = models.DateTimeField(auto_now_add=False, verbose_name='Время вылета')
     arrival_time = models.DateTimeField(auto_now_add=False, verbose_name='Время прибытия')
     plane_id = models.ForeignKey('Plane', on_delete=models.PROTECT, null=True, verbose_name='Самолёт')
