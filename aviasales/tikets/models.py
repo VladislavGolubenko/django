@@ -3,6 +3,7 @@ from django.db import models
 class Airport(models.Model):
     #id_airport
     # id = models.IntegerField(primary_key=True, verbose_name='ID')
+    country = models.CharField(max_length=250, verbose_name='Страна', default='Не указано')
     city = models.CharField(max_length=250, verbose_name='Город')
     airport_name = models.CharField(max_length=250, verbose_name='Название аэропорта')
     airport_code = models.CharField(max_length=10, verbose_name='Кодовое название аэропорта')
@@ -57,13 +58,8 @@ class Plane(models.Model):
     model_plane = models.CharField(max_length=20, verbose_name='Модель самолёта')
     places = models.IntegerField(verbose_name='Всего мест')
     vip_places = models.IntegerField(verbose_name='VIP мест', blank=True)
-    vip_price = models.IntegerField(verbose_name='Стоимость vip мест', blank=True)
     bussines_places = models.IntegerField(verbose_name='Кол-во бизнесс мест', blank=True)
-    bussines_price = models.IntegerField(verbose_name='Стоимость бизнесс мест', blank=True)
     econom = models.IntegerField(verbose_name='Кол-во эконом мест')
-    econom_price = models.IntegerField(verbose_name='Стоимость эконом мест')
-    window_upsale = models.IntegerField(verbose_name='Доплата за место у окна', blank=True)
-    trunk_sale = models.IntegerField(verbose_name='Доплата за багаж')
     carrier_id = models.ForeignKey('Carrier', on_delete=models.PROTECT, null=True, verbose_name='Перевозчик')
 
     def __str__(self):
@@ -101,6 +97,11 @@ class Flights(models.Model):
     departure_time = models.DateTimeField(auto_now_add=False, verbose_name='Время вылета')
     arrival_time = models.DateTimeField(auto_now_add=False, verbose_name='Время прибытия')
     plane_id = models.ForeignKey('Plane', on_delete=models.PROTECT, null=True, verbose_name='Самолёт')
+    vip_price = models.IntegerField(verbose_name='Стоимость vip мест', blank=True, default=0)
+    bussines_price = models.IntegerField(verbose_name='Стоимость бизнесс мест', blank=True, default=0)
+    econom_price = models.IntegerField(verbose_name='Стоимость эконом мест', default=0)
+    window_upsale = models.IntegerField(verbose_name='Доплата за место у окна', blank=True, default=0)
+    trunk_sale = models.IntegerField(verbose_name='Доплата за багаж', default=0)
 
     def __str__(self):
         return str(self.id)

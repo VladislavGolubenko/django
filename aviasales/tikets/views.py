@@ -13,7 +13,12 @@ def index(request):
 
 def scroll(request):
 
+    carrier = Carrier.objects.all()
     flights = Flights.objects.all()
-    title = 'Отображение'
+    context = {
+        'flights': flights,
+        'title': 'Отображение',
+        'carriers': carrier,
+    }
 
-    return render(request, 'tikets/scroll.html', {'flights': flights, 'title': title})
+    return render(request, 'tikets/scroll.html', context=context)

@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import *
 
 class AirportAdmin(admin.ModelAdmin):
-    list_display = ('id', 'city', 'airport_name', 'airport_code', 'adress', 'contact_phone')
+    list_display = ('id', 'country', 'city', 'airport_name', 'airport_code', 'adress', 'contact_phone')
     list_display_links = ('id', 'airport_code')  # какие поля будут ссылками
     search_fields = ('airport_name', 'airport_code')  # по каким полям будет происходить поиск
     # list_editable = ('contact_phone',)  # какие поля можно редактировать сразу в таблице
@@ -20,16 +20,16 @@ class CarrierAdmin(admin.ModelAdmin):
     search_field = ('name')
 
 class PlaneAdmin(admin.ModelAdmin):
-    list_display = ('id', 'model_plane', 'places', 'vip_places', 'vip_price', 'bussines_places', 'bussines_price', 'econom', 'econom_price', 'window_upsale', 'trunk_sale', 'carrier_id')
+    list_display = ('id', 'model_plane', 'places', 'vip_places',  'bussines_places',  'econom',  'carrier_id')
     list_display_links = ('id', 'model_plane')
     search_field = ('model_plane')
-    list_editable = ('vip_price', 'bussines_price', 'econom_price', 'window_upsale', 'trunk_sale')
 
 class TiketAdmin(admin.ModelAdmin):
     list_display = ('id', 'flight_id', 'order_id', 'place', 'purchase_date', 'depatrure_date', 'trunk')
 
 class FlightsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'departure_airport', 'arrival_point_airport', 'transfer_point', 'departure_time', 'arrival_time', 'plane_id')
+    list_display = ('id', 'departure_airport', 'arrival_point_airport', 'transfer_point', 'departure_time', 'arrival_time', 'plane_id' 'vip_price', 'bussines_price', 'econom_price', 'window_upsale', 'trunk_sale')
+    list_editable = ('vip_price', 'bussines_price', 'econom_price', 'window_upsale', 'trunk_sale')
 
 admin.site.register(Airport, AirportAdmin)
 admin.site.register(Order, OrderAdmin)
