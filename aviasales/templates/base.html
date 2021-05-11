@@ -28,22 +28,51 @@
     {% get_Flights %}
     <main>
         <div class="filter_part">
-            <div class="dropdown_part">
-                <button class="menu_filter_dropdown" type="button" id="hider"  value='first' onclick="press_dropdown(this)">
-                    <div>АВИАКОМПАНИИ</div>
-                    <i class="fas fa-sort-down" ></i>
-                    <i class="fas fa-sort-up"></i>
-                </button>
 
-                {% for carrier in carriers %}
-                    <input id="dropdown_select" class="dropdown_select" type="checkbox" id="{{ carrier.name }}">
-                    <label for="{{ carrier.name }}"></label>
-                {% empty %}
-                    <p>список авиакомпаний пуст</p>
-                {% endfor %}
-            </div>
+            <form action="{% url 'home' %}" method="post">
+                {% csrf_token %} <!-- Создаёт уникальный токен для проверки подленности формы. Формы не работают без этого тега, тк при его отсутстии появляется CSRF уязвимость -->
 
-            <button class="menu_filter_dropdown">hello</button>
+                {% comment %}
+                {{ form.as_p }}
+                {% endcomment %}
+
+                {{ form.none_field.errors }}<!--ошибки валидации не связанные с полями формы -->
+                <div class="dropdown_part">
+                    <button class="menu_filter_dropdown" type="button" value='first' onclick="press_dropdown(this)">
+                        <label for="{{form.carriers_names.id_for_label}}">Авиакомпании</label>
+                        <i class="fas fa-sort-down" ></i>
+                        <i class="fas fa-sort-up"></i>
+                    </button>
+                    <div class="dropdown_select">
+                        {{form.carriers_names}}
+                    </div>
+                    {% for carrier in carriers %}
+                    {% empty %}
+                        <div class="dropdown_select">
+                            <label>Нет выбора авиакомпании</label>
+                        </div>
+                    {% endfor %}
+
+                    <div class="invalid-feedback">
+                        {{form.carriers_names.errors}}
+                    </div>
+                </div>
+
+                <div class="dropdown_part">
+                    <div class="menu_filter_dropdown" type="button" value='first'>
+                        <label for="{{form.departure.id_for_label}}">Наличие пересадки</label>
+                    </div>
+
+                    <div class="dropdown_select">
+                        {{form.departure}}
+                    </div>
+
+                    <div class="invalid-feedback">
+                        {{form.departure.errors}}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Отсортировать Авиабилеты</button>
+            </form>
 
             <input type="range" class="custom-range" id="customRange" name="points1">
 

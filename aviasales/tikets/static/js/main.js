@@ -26,7 +26,7 @@ function press_dropdown(btn){
 
         for(var i=0; i<select.length; i++){
 
-            document.getElementsByClassName('dropdown_select')[i].style.display = "block";
+            document.getElementsByClassName('dropdown_select')[i].style.display = "flex";
         }
 
         for(var i=0; i<faSortUp.length; i++){

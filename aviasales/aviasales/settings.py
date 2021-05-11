@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tikets.apps.TiketsConfig',
+    # 'djangorestframework'
+    # 'django_filters'
 ]
 
 MIDDLEWARE = [
