@@ -1,22 +1,22 @@
 from django.db import models
 
-class Airport(models.Model):
-    #id_airport
-    # id = models.IntegerField(primary_key=True, verbose_name='ID')
-    country = models.CharField(max_length=250, verbose_name='Страна', default='Не указано')
-    city = models.CharField(max_length=250, verbose_name='Город')
-    airport_name = models.CharField(max_length=250, verbose_name='Название аэропорта')
-    airport_code = models.CharField(max_length=10, verbose_name='Кодовое название аэропорта')
-    adress = models.CharField(max_length=1000, verbose_name='Адресс аэропорта')
-    contact_phone = models.IntegerField(verbose_name='Контактный телефон')
+class Tiket(models.Model):
+
+    # id_tiket = models.IntegerField(primary_key=True, verbose_name='ID')
+    flight_id = models.ForeignKey('Flights', on_delete=models.PROTECT, null=True, verbose_name='Рейс')
+    order_id = models.ForeignKey('Order', on_delete=models.PROTECT, null=True, verbose_name='Заказчик')
+    place = models.IntegerField(verbose_name='Номер места')
+    purchase_date = models.DateTimeField(auto_now=True, verbose_name='Дата покупки билета')
+    depatrure_date = models.DateTimeField(auto_now=False, verbose_name='Дата вылета')
+    trunk = models.BooleanField(verbose_name='Наличие багажа')
 
     def __str__(self):
-        return self.airport_name
+        return str(self.id)
 
     class Meta:
-        verbose_name = 'Аэропорт'
-        verbose_name_plural = 'Аэропорты'
-        ordering = ['city']
+        verbose_name = 'Билет'
+        verbose_name_plural = 'Билеты'
+        ordering = ['purchase_date']
 
 
 class Order(models.Model):
@@ -35,6 +35,24 @@ class Order(models.Model):
         verbose_name = 'Пассажир'
         verbose_name_plural = 'Пассажиры'
         ordering = ['surename']
+
+class Airport(models.Model):
+    #id_airport
+    # id = models.IntegerField(primary_key=True, verbose_name='ID')
+    country = models.CharField(max_length=250, verbose_name='Страна', default='Не указано')
+    city = models.CharField(max_length=250, verbose_name='Город')
+    airport_name = models.CharField(max_length=250, verbose_name='Название аэропорта')
+    airport_code = models.CharField(max_length=10, verbose_name='Кодовое название аэропорта')
+    adress = models.CharField(max_length=1000, verbose_name='Адресс аэропорта')
+    contact_phone = models.IntegerField(verbose_name='Контактный телефон')
+
+    def __str__(self):
+        return self.airport_name
+
+    class Meta:
+        verbose_name = 'Аэропорт'
+        verbose_name_plural = 'Аэропорты'
+        ordering = ['city']
 
 class Carrier(models.Model):
     # id_carrier = models.IntegerField(primary_key=True, verbose_name='ID')
@@ -60,7 +78,7 @@ class Plane(models.Model):
     vip_places = models.IntegerField(verbose_name='VIP мест', blank=True)
     bussines_places = models.IntegerField(verbose_name='Кол-во бизнесс мест', blank=True)
     econom = models.IntegerField(verbose_name='Кол-во эконом мест')
-    carrier_id = models.ForeignKey('Carrier', on_delete=models.PROTECT, null=True, verbose_name='Перевозчик')
+    carrier_id = models.ForeignKey('Carrier', on_delete=models.PROTECT, null=True, verbose_name='Перевозчик', related_name='carrier')
 
     def __str__(self):
         return self.model_plane
@@ -70,25 +88,6 @@ class Plane(models.Model):
         verbose_name_plural = 'Самолёты'
         ordering = ['model_plane']
 
-class Tiket(models.Model):
-
-    # id_tiket = models.IntegerField(primary_key=True, verbose_name='ID')
-    flight_id = models.ForeignKey('Flights', on_delete=models.PROTECT, null=True, verbose_name='Рейс')
-    order_id = models.ForeignKey('Order', on_delete=models.PROTECT, null=True, verbose_name='Заказчик')
-    place = models.IntegerField(verbose_name='Номер места')
-    purchase_date = models.DateTimeField(auto_now=True, verbose_name='Дата покупки билета')
-    depatrure_date = models.DateTimeField(auto_now=False, verbose_name='Дата вылета')
-    trunk = models.BooleanField(verbose_name='Наличие багажа')
-
-    def __str__(self):
-        return str(self.id)
-
-    class Meta:
-        verbose_name = 'Билет'
-        verbose_name_plural = 'Билеты'
-        ordering = ['purchase_date']
-
-
 class Flights(models.Model):
     # id_flights = models.IntegerField(primary_key=True, verbose_name='ID')
     departure_airport = models.ForeignKey('Airport', on_delete=models.PROTECT, related_name='departure_airport', null=True, verbose_name='Точка вылета')
@@ -96,7 +95,7 @@ class Flights(models.Model):
     transfer_point = models.ForeignKey('Airport', on_delete=models.PROTECT, related_name='transfer_point', null=True, verbose_name='Аэропорт пересадки', blank=True)
     departure_time = models.DateTimeField(auto_now_add=False, verbose_name='Время вылета')
     arrival_time = models.DateTimeField(auto_now_add=False, verbose_name='Время прибытия')
-    plane_id = models.ForeignKey('Plane', on_delete=models.PROTECT, null=True, verbose_name='Самолёт')
+    plane_id = models.ForeignKey('Plane', on_delete=models.PROTECT, null=True, verbose_name='Самолёт', related_name='plane')
     vip_price = models.IntegerField(verbose_name='Стоимость vip мест', blank=True, default=0)
     bussines_price = models.IntegerField(verbose_name='Стоимость бизнесс мест', blank=True, default=0)
     econom_price = models.IntegerField(verbose_name='Стоимость эконом мест', default=0)

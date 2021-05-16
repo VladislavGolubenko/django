@@ -1,5 +1,13 @@
 from django import forms
-from .models import Carrier
+from bootstrap_datepicker_plus import DatePickerInput
+from django.contrib.admin.widgets import AdminDateWidget, AdminTimeWidget
+from .models import *
+from django.contrib.admin.widgets import AdminDateWidget
+
+from django import forms
+from django.contrib.admin import widgets
+
+
 
 class ParametrForm(forms.Form):
 
@@ -13,9 +21,6 @@ class ParametrForm(forms.Form):
         choices=names_array,
     )
 
-    # def __init__(self, *args, **kwargs):
-    #     super(ParametrForm, self).__init__(*args, **kwargs)
-    #     self.fields['carriers_names'].widget.attrs['class'] = "select_input"
 
     departure = forms.BooleanField(initial=True, required=False, label='Показывать билеты с пересадками', widget=forms.CheckboxInput())
 
@@ -24,3 +29,48 @@ class ParametrForm(forms.Form):
     # initial='изначальное значение'
     # empty_label='(Nothing)' - изначальное значение выпадающих списков. если NONE то первый элемент
     # widget - все что хотим применить к инпуту
+
+class BuyForm(forms.Form):
+
+    names = Flights.objects.all()
+    name = forms.CharField()
+    surename = forms.CharField()
+    fathername = forms.CharField()
+    phone = forms.IntegerField()
+    pasport = forms.CharField()
+
+class FormFindTiket(forms.Form):
+
+    departure_place = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control mb-2 mr-sm-2',
+                'placeholder': 'Откуда',
+            }
+        ),
+    )
+
+    arrivial_place = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control mb-2 mr-sm-2',
+                'placeholder': 'Куда',
+            }
+        ),
+    )
+
+
+
+
+
+
+    departure_date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Когда',
+            }
+        ),
+    )
+
+

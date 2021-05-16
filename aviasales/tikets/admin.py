@@ -28,7 +28,7 @@ class TiketAdmin(admin.ModelAdmin):
     list_display = ('id', 'flight_id', 'order_id', 'place', 'purchase_date', 'depatrure_date', 'trunk')
 
 class FlightsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'departure_airport', 'arrival_point_airport', 'transfer_point', 'departure_time', 'arrival_time', 'plane_id' 'vip_price', 'bussines_price', 'econom_price', 'window_upsale', 'trunk_sale')
+    list_display = ('id', 'departure_airport', 'arrival_point_airport', 'transfer_point', 'departure_time', 'arrival_time', 'plane_id', 'vip_price', 'bussines_price', 'econom_price', 'window_upsale', 'trunk_sale')
     list_editable = ('vip_price', 'bussines_price', 'econom_price', 'window_upsale', 'trunk_sale')
 
 admin.site.register(Airport, AirportAdmin)
@@ -36,6 +36,6 @@ admin.site.register(Order, OrderAdmin)
 admin.site.register(Carrier, CarrierAdmin)
 admin.site.register(Plane, PlaneAdmin)
 admin.site.register(Tiket, TiketAdmin)
-admin.site.register(Flights)
+admin.site.register(Flights, FlightsAdmin)
 
 

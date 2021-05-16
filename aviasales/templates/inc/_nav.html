@@ -1,7 +1,8 @@
 {% block header %}
+{% load static %}
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
       <!-- Brand -->
-      <a class="navbar-brand" href="#">Logo</a>
+      <a class="navbar-brand" href="{% url 'home' %}"><img class="logo" src="{% static 'img/depositphotos_141656758-stock-illustration-vintage-flying-airplane-logo-design.jpg'%}" alt=""></a>
 
       <!-- Links -->
       <ul class="navbar-nav">
