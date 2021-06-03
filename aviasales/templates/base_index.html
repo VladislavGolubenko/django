@@ -1,0 +1,18 @@
+{% include "inc/_inc.html" %}
+{% include "inc/_nav.html" %}
+
+{% load static %}
+
+    <main>
+        <h1>Давай искать авиабилеты с нами</h1>
+        <h4 style="margin-bottom: 30px;">предлагаем лучшие варианты</h4>
+
+        <div class="main_page_card">
+            {% include "inc/_findtiket.html" %}
+            {% block findtiket %}
+            {% endblock %}
+        </div>
+    </main>
+
+
+{% include "inc/_footer.html" %}

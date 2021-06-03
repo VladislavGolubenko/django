@@ -1,0 +1,98 @@
+{% include "inc/_inc.html" %}
+{% include "inc/_nav.html" %}
+{% load static %}
+
+    {% block include %}{% endblock %}
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+
+    <div class="buy_card">
+        {% for flight in flights %}
+        <div class="header_buy_card">
+            <img class="buy_card_logo" src="{{ MEDIA_URL }}{{flight.plane_id.carrier_id.logo.url}}" alt="">
+        </div>
+
+        <div class="main_buy_card">
+
+            <div class="main_buy_card_time">
+                <span>{{ flight.departure_time|date:"H:i d F"}}</span>
+                <span>{{ flight.arrival_time|date:"H:i d F"}}</span>
+            </div>
+
+            <div class="main_buy_card_form">
+
+                <form method="post" action="{% url 'get_contact' id_flight %}">
+                    {% csrf_token %}
+                    {{ form.none_field.errors }}
+
+                    <span class="airport_poin"><b>{{ flight.departure_airport}}</b>({{ flight.departure_airport.city}})</span>
+
+                    <div class="main_buy_card_form_input">
+                        <div class="place_buy_card">
+                            <label for="{{form.place_class.id_for_label}}">Класс билета</label>
+                            {{ form.place_class }}
+                             <div class="invalid-feedback">
+                                {{form.place_class.errors}}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="{{form.window_place.id_for_label}}">Место у окна</label>
+                            {{ form.window_place}}
+                             <div class="invalid-feedback">
+                                {{form.window_place.errors}}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="{{form.baggage.id_for_label}}">Наличие багажа</label>
+                            {{ form.baggage}}
+                             <div class="invalid-feedback">
+                                {{form.baggage.errors}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <span class="airport_poin"><b>{{ flight.arrival_point_airport}}</b>({{ flight.arrival_point_airport.city}})</span>
+            </div>
+
+            <div class="main_buy_card_plane">
+                <img src="{% static 'img/buy_plane.png'%}" alt="">
+                <span style="font-size: 14px;">{{ flight.plane_id.model_plane}}</span>
+            </div>
+
+        {% empty %}
+            <p>Произошла ошибка</p>
+        {% endfor %}
+
+
+        </div>
+        <div class="footer_buy_card">
+                <span style="font-size: 18px;">Время вылета и прилета местное</span>
+                <button type="submit" class="btn btn-primary mb-2 btn-lg">Продолжить покупку</button>
+            </form>
+        </div>
+    </div>
+
+
+<!--    <h2>Выберите место</h2>-->
+<!--    <div class="place_in_plane">-->
+<!--        <div class="places">-->
+<!--            <form method="post" action="">-->
+<!--                {% for item in plases_array %}-->
+
+<!--                    &lt;!&ndash; Button to Open the Modal &ndash;&gt;-->
+<!--                    <input class="place" type="button" placeholder="{{ item }}" value="{{ item }}">-->
+
+<!--                {% empty %}-->
+<!--                    <p>количество мест в самолете не указано</p>-->
+<!--                {% endfor %}-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+
+
+{% include "inc/_footer.html" %}
